@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using APIJson.Models;
+using Microsoft.AspNetCore.Mvc;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -22,10 +23,12 @@ namespace APIJson.Controllers
         }
 
 
-        [HttpGet("token")]
-        public IActionResult Token()
+        [HttpPost("token")]
+        public IActionResult Token([FromBody] Login request)
         {
-            return Ok("Soy token");
+            JwtHandler jwtHandler = new JwtHandler("MiClaveMuySecretaYLargaDeAlMenos32Chars!");
+            string token = jwtHandler.GenerateToken(request.Username, 60);
+            return Ok(token);
         }
 
     }
